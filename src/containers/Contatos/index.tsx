@@ -9,4 +9,4 @@ function ContatosComp() {
   );
 }
 
-export const Login = observer(ContatosComp);
+export const Contatos = observer(ContatosComp);

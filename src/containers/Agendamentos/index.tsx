@@ -9,4 +9,4 @@ function AgendamentosComp() {
   );
 }
 
-export const Login = observer(AgendamentosComp);
+export const Agendamentos = observer(AgendamentosComp);

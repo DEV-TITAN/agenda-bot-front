@@ -9,4 +9,4 @@ function AudiosComp() {
   );
 }
 
-export const Login = observer(AudiosComp);
+export const Audios = observer(AudiosComp);

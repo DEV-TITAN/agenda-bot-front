@@ -2,7 +2,11 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Agendamentos } from '../containers/Agendamentos';
+import { Audios } from '../containers/Audios';
+import { Contatos } from '../containers/Contatos';
 import { Login } from '../shared/containers/Login';
+import { AgendamentosStore } from '../stores';
 import { useStores } from '../stores/RootStore';
 
 function RoutesComp() {
@@ -13,9 +17,9 @@ function RoutesComp() {
       <Switch>
         {/* menu */}
         {/* corpo */}
-        <Route path="/agendamentos" />
-        <Route path="/contatos" />
-        <Route path="/audios" />
+        <Route path="/agendamentos" component={Agendamentos} />
+        <Route path="/contatos" component={Contatos} />
+        <Route path="/audios" component={Audios} />
       </Switch>
     );
   }
