@@ -6,7 +6,6 @@ import { Agendamentos } from '../containers/Agendamentos';
 import { Audios } from '../containers/Audios';
 import { Contatos } from '../containers/Contatos';
 import { Login } from '../shared/containers/Login';
-import { AgendamentosStore } from '../stores';
 import { useStores } from '../stores/RootStore';
 
 function RoutesComp() {

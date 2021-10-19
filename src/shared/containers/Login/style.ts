@@ -8,8 +8,8 @@ export const Container = styled.main`
   flex-direction: column;
   background: linear-gradient(
     180deg,
-    #666bcc 0%,
-    rgba(102, 107, 204, 0.7) 100%
+    #eff1f1 0%,
+    rgba(239, 241, 241, 0.7) 100%
   );
 `;
 
@@ -33,29 +33,34 @@ export const AnimationContainer = styled.div`
   animation: ${appearFromLeft} 1s;
 
   form {
-    margin: 30px 0;
+    margin: 30px 0 0;
     text-align: center;
-  }
-
-  a {
-    color: var(--purple-300);
-    margin-top: 16px;
-    text-align: center;
-
-    &:hover {
-      opacity: 0.8;
-    }
   }
 `;
 
-export const AreaButtons = styled.div`
-  width: 100%;
+export const Content = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  justify-content: flex-end;
+  width: 350px;
+  height: 350px;
+  background: var(--orange-400);
+  padding: 24px;
+`;
 
-  a {
-    text-decoration: none;
-    margin-top: 0;
+export const Logo = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 50px;
+  }
+
+  h1 {
+    color: var(--white);
+    font-size: 24px;
+    font-weight: bold;
   }
 `;

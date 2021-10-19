@@ -32,24 +32,24 @@ const buttonSizeVariations = {
 
 const buttonTypeVariations = {
   primary: css`
-    background-color: var(--purple-500);
+    background-color: var(--blue-500);
     color: var(--white);
     border: none;
   `,
   secondary: css`
-    background-color: var(--yellow-500);
+    background-color: var(--orange-400);
     color: var(--white);
     border: none;
   `,
   primaryOutline: css`
     background-color: var(--white);
-    color: var(--purple-500);
-    border: 2px solid var(--purple-500);
+    color: var(--blue-500);
+    border: 2px solid var(--blue-500);
   `,
   secondaryOutline: css`
     background-color: var(--white);
-    color: var(--yellow-500);
-    border: 2px solid var(--yellow-500);
+    color: var(--orange-400);
+    border: 2px solid var(--orange-400);
   `,
   danger: css`
     background-color: var(--danger);
@@ -68,6 +68,7 @@ export const ButtonContainer = styled.button<ButtonProps>`
   align-items: center;
   border-radius: 5px;
   width: fit-content;
+  margin: auto;
 
   ${props => buttonSizeVariations[props.buttonSize || 'medium']}
 
