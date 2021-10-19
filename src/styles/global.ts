@@ -15,6 +15,7 @@ export default createGlobalStyle`
     --gray-two: #FAFAFA;
     --blue-500: #007AAD;
     --orange-400: #FA992A;
+    --danger: #C53030;
   }
 
   body {
@@ -24,7 +25,7 @@ export default createGlobalStyle`
   }
 
   body, input, button {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 16px;
   }
 

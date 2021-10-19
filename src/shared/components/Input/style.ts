@@ -16,8 +16,8 @@ export const Container = styled.div<ContainerProps>`
   height: 45px;
   display: flex;
   align-items: center;
-  border: 2px solid var(--purple-500);
-  color: var(--purple-500);
+  border: 2px solid var(--white);
+  color: var(--blue-500);
 
   ${props =>
     props.isErrored &&
@@ -29,15 +29,15 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFocused &&
     css`
-      border-color: var(--yellow-400);
-      color: var(--yellow-400);
+      border-color: var(--blue-500);
+      color: var(--blue-500);
     `}
 
   ${props =>
     props.isFilled &&
     css`
-      border-color: var(--yellow-400);
-      color: var(--yellow-400);
+      border-color: var(--blue-500);
+      color: var(--blue-500);
     `}
 
   & + div {

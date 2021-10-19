@@ -10,10 +10,11 @@ import { observer } from 'mobx-react';
 import React, { useCallback, useRef, useState } from 'react';
 import * as Yup from 'yup';
 
+import logo from '../../../assets/logo.png';
 import getValidationErrors from '../../../helpers/errorsValidation';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
-import { Container, AnimationContainer } from './style';
+import { Container, AnimationContainer, Content, Logo } from './style';
 
 function LoginComp() {
   const [showPassword, setShowPassword] = useState(false);
@@ -55,27 +56,33 @@ function LoginComp() {
   return (
     <Container>
       <AnimationContainer>
-        <Form ref={formRef} onSubmit={handleSubmit}>
-          <Input name="email" icon={faEnvelope} placeholder="E-mail" />
+        <Content>
+          <Logo>
+            <img src={logo} alt="tela vazia" />
+            <h1>Agenda Bot</h1>
+          </Logo>
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input name="email" icon={faEnvelope} placeholder="E-mail" />
 
-          <Input
-            name="password"
-            icon={faLock}
-            iconPassword={showPassword ? faEye : faEyeSlash}
-            type={showPassword ? 'text' : 'password'}
-            onIconClick={() => setShowPassword(!showPassword)}
-            placeholder="Senha"
-          />
+            <Input
+              name="password"
+              icon={faLock}
+              iconPassword={showPassword ? faEye : faEyeSlash}
+              type={showPassword ? 'text' : 'password'}
+              onIconClick={() => setShowPassword(!showPassword)}
+              placeholder="Senha"
+            />
 
-          <Button
-            type="submit"
-            buttonSize="medium"
-            buttonType="primary"
-            loading={loading}
-          >
-            Entrar
-          </Button>
-        </Form>
+            <Button
+              type="submit"
+              buttonSize="medium"
+              buttonType="primary"
+              loading={loading}
+            >
+              Entrar
+            </Button>
+          </Form>
+        </Content>
       </AnimationContainer>
     </Container>
   );

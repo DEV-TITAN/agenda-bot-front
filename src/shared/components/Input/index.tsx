@@ -47,7 +47,13 @@ function InputComp({
       isFilled={isFilled}
       isFocused={isFocused}
     >
-      {Icon && <FontAwesomeIcon icon={Icon} onClick={onIconClick} />}
+      {Icon && (
+        <FontAwesomeIcon
+          icon={Icon}
+          onClick={onIconClick}
+          color={Colors.WHITE}
+        />
+      )}
 
       <input
         onFocus={() => setIsFocused(true)}
@@ -59,7 +65,11 @@ function InputComp({
       />
 
       {IconPassword && (
-        <FontAwesomeIcon icon={IconPassword} onClick={onIconClick} />
+        <FontAwesomeIcon
+          icon={IconPassword}
+          onClick={onIconClick}
+          color={Colors.WHITE}
+        />
       )}
 
       {error && (
