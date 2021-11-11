@@ -1,6 +1,7 @@
 import React from 'react';
 
 import backgroundTheme from '../../../assets/photo-theme.jpg';
+
 import { ContainerCard, CardInfor, CardButtons } from './style';
 
 interface CardProps {
