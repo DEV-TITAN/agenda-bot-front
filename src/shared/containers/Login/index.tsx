@@ -8,18 +8,23 @@ import type { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import { observer } from 'mobx-react';
 import React, { useCallback, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 
 import logo from '../../../assets/logo.png';
 import getValidationErrors from '../../../helpers/errorsValidation';
+import { useStores } from '../../../stores/RootStore';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { Container, AnimationContainer, Content, Logo } from './style';
 
 function LoginComp() {
+  const { authStore } = useStores();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const formRef = useRef<FormHandles>(null);
+
+  const history = useHistory();
 
   const handleSubmit = useCallback(async (data: object) => {
     try {
@@ -40,6 +45,10 @@ function LoginComp() {
       const email = formRef.current?.getFieldValue('email');
 
       const password = formRef.current?.getFieldValue('password');
+
+      await authStore.signIn(email, password).then(() => {
+        history.push('/agendamentos');
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErrors(err);
