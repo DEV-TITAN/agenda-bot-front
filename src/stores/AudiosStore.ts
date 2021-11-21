@@ -13,13 +13,6 @@ import {
 } from '../helpers/notification';
 import { RootStore } from './RootStore';
 import api from '../api';
-import {
-  LOCAL_STORAGE_CORRECTED,
-  LOCAL_STORAGE_CREDITS,
-  LOCAL_STORAGE_DRAFTS,
-  LOCAL_STORAGE_PENDING,
-  LOCAL_STORAGE_VALIDITY,
-} from '../helpers/localStorage';
 
 export class AudiosStore {
   @observable
@@ -83,16 +76,6 @@ export class AudiosStore {
   public async getCredits() {
     try {
       const creditsAndCredits = (await api.get(`users/my/credits`)).data;
-
-      localStorage.setItem(
-        LOCAL_STORAGE_CREDITS,
-        JSON.stringify(creditsAndCredits.credits),
-      );
-
-      localStorage.setItem(
-        LOCAL_STORAGE_VALIDITY,
-        JSON.stringify(creditsAndCredits.validity),
-      );
     } catch (error) {
       showErrorNotification(error.response.data.message);
     }
@@ -123,10 +106,6 @@ export class AudiosStore {
     try {
       const totalDrafts = await api.get(`essays/drafts/count/total`);
 
-      localStorage.setItem(
-        LOCAL_STORAGE_DRAFTS,
-        JSON.stringify(totalDrafts.data.totalDrafts),
-      );
       this.getCredits();
     } catch (error) {
       console.log(error.response.data.error);
@@ -192,10 +171,6 @@ export class AudiosStore {
     try {
       const totalPending = await api.get(`essays/pending/count/total`);
 
-      localStorage.setItem(
-        LOCAL_STORAGE_PENDING,
-        JSON.stringify(totalPending.data.totalEssays),
-      );
       this.getCredits();
     } catch (error) {
       console.log(error.response.data.error);
@@ -250,10 +225,6 @@ export class AudiosStore {
         `essays/corrected-essays/count/total`,
       );
 
-      localStorage.setItem(
-        LOCAL_STORAGE_CORRECTED,
-        JSON.stringify(totalCorrecteds.data.totalCorrecteds),
-      );
       this.getCredits();
     } catch (error) {
       console.log(error.response.data.error);

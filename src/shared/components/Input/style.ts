@@ -17,7 +17,7 @@ export const Container = styled.div<ContainerProps>`
   display: flex;
   align-items: center;
   border: 2px solid var(--white);
-  color: var(--blue-500);
+  color: var(--white);
 
   ${props =>
     props.isErrored &&

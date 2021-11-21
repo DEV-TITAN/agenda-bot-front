@@ -192,3 +192,7 @@ export interface PostList {
   rowCount: number;
   searchName: string | null;
 }
+
+export interface LocalStorageKeys {
+  accessToken: string | null;
+}
