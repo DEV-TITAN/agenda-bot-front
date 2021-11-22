@@ -5,8 +5,10 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Agendamentos } from '../containers/Agendamentos';
 import { Audios } from '../containers/Audios';
 import { Contatos } from '../containers/Contatos';
+import { Sidenav } from '../shared/components/Sidenav';
 import { Login } from '../shared/containers/Login';
 import { useStores } from '../stores/RootStore';
+import { Container, Content } from './style';
 
 function RoutesComp() {
   const { authStore } = useStores();
@@ -14,11 +16,14 @@ function RoutesComp() {
   if (authStore.isUserLoggedIn) {
     return (
       <Switch>
-        {/* menu */}
-        {/* corpo */}
-        <Route path="/agendamentos" component={Agendamentos} />
-        <Route path="/contatos" component={Contatos} />
-        <Route path="/audios" component={Audios} />
+        <Container>
+          <Sidenav />
+          <Content>
+            <Route path="/agendamentos" component={Agendamentos} />
+            <Route path="/contatos" component={Contatos} />
+            <Route path="/audios" component={Audios} />
+          </Content>
+        </Container>
       </Switch>
     );
   }

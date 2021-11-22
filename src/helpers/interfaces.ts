@@ -196,3 +196,26 @@ export interface PostList {
 export interface LocalStorageKeys {
   accessToken: string | null;
 }
+
+// agendaBOT
+
+export interface ContatosList {
+  data: { contacts: Contato[] };
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  rowCount: number;
+  searchName: string | null;
+}
+
+export interface Contato {
+  id: string;
+  firstName: string;
+  phoneNumber: string;
+}
+
+export interface DataSourceContato {
+  key: string;
+  name: string;
+  phoneNumber: string;
+}

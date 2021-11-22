@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import 'antd/dist/antd.css';
 
 export default createGlobalStyle`
   * {
@@ -11,8 +12,9 @@ export default createGlobalStyle`
   :root {
     --white: #FFF;
     --black: #000;
-    --gray-one: #EFF1F1;
-    --gray-two: #FAFAFA;
+    --gray-one: #FAFAFA;
+    --gray-two: #EFF1F1;
+    --gray-three: #E5E5E5;
     --blue-500: #007AAD;
     --orange-400: #FA992A;
     --danger: #C53030;
