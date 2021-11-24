@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
 
-import { Tooltip } from '../Tooltip';
-
 interface ContainerProps {
   isFocused: boolean;
   isFilled: boolean;
@@ -16,8 +14,8 @@ export const Container = styled.div<ContainerProps>`
   height: 45px;
   display: flex;
   align-items: center;
-  border: 2px solid var(--purple-500);
-  color: var(--purple-500);
+  border: 2px solid var(--blue-500);
+  color: var(--blue-500);
 
   ${props =>
     props.isErrored &&
@@ -30,15 +28,15 @@ export const Container = styled.div<ContainerProps>`
   ${props =>
     props.isFocused &&
     css`
-      border-color: var(--yellow-400);
-      color: var(--yellow-400);
+      border-color: rgba(0, 122, 173, 0.5);
+      color: var(--blue-500);
     `}
 
   ${props =>
     props.isFilled &&
     css`
-      border-color: var(--yellow-400);
-      color: var(--yellow-400);
+      border-color: rgba(0, 122, 173, 0.5);
+      color: var(--blue-500);
     `}
 
   & + div {
@@ -50,10 +48,10 @@ export const Container = styled.div<ContainerProps>`
     flex: 1;
     background: transparent;
     border: 0;
-    color: var(--purple-400);
+    color: var(--blue-500);
 
     &::placeholder {
-      color: var(--purple-500);
+      color: var(--blue-500);
       font-size: 14px;
     }
   }

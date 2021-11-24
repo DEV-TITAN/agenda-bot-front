@@ -48,6 +48,7 @@ function LoginComp() {
 
       await authStore.signIn(email, password).then(() => {
         history.push('/agendamentos');
+        window.location.reload();
       });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {

@@ -13,7 +13,7 @@ interface LoadingProps {
 export function Loading({ size, color }: LoadingProps) {
   const antIcon = (
     <LoadingOutlined
-      style={{ fontSize: size ?? 24, color: color ?? Colors.WHITE }}
+      style={{ fontSize: size ?? 24, color: color ?? Colors.BLUE_500 }}
       spin
     />
   );

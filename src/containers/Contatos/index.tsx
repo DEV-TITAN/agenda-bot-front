@@ -5,6 +5,7 @@ import { debounceSearch } from '../../helpers/search';
 import { useStores } from '../../stores/RootStore';
 import { Search } from '../../shared/components/Search';
 import {
+  Actions,
   ContatosContainer,
   ContatosContentButton,
   ContatosContentTable,
@@ -12,13 +13,23 @@ import {
 import { Button } from '../../shared/components/Button';
 import { Table } from 'antd';
 import { DataSourceContato } from '../../helpers/interfaces';
+import { ModalAddContato } from './ModalAddContato';
+import { ModalConfirmation } from '../../shared/components/ModalConfirmation';
+import { ModalEditContato } from './ModalEditContato';
 
 function ContatosComp() {
   const [search, setSearch] = useState('');
   const [contatosData, setContatosData] = useState<DataSourceContato[]>([]);
-  const debounceQuery = debounceSearch(500);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [loading, setLoading] = useState(false);
+  const [modalAdd, setModalAdd] = useState(false);
+  const [modalEdit, setModalEdit] = useState(false);
+  const [modalDelete, setModalDelete] = useState(false);
+
+  const [contatoSelected, setContatoSelected] = useState<DataSourceContato>();
+
+  const debounceQuery = debounceSearch(500);
+
   const { contatosStore } = useStores();
 
   const pageSize = 4;
@@ -44,15 +55,22 @@ function ContatosComp() {
       });
   }
 
-  useEffect(() => {
-    setLoading(true);
-    fetchContatosData(search);
-  }, [currentPage]);
-
   async function handleSearch(value: string) {
     setSearch(value);
     fetchContatosData(value);
   }
+
+  async function deleteContato(id: string) {
+    setLoading(true);
+    await contatosStore.deleteContato(id);
+    fetchContatosData();
+    setModalDelete(false);
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    fetchContatosData(search);
+  }, [currentPage]);
 
   const columns = [
     {
@@ -61,18 +79,38 @@ function ContatosComp() {
       key: 'name',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Telefone',
+      dataIndex: 'phoneNumber',
+      key: 'phoneNumber',
     },
     {
-      title: 'Action',
+      title: 'Ações',
       key: 'action',
-      render: () => (
-        <>
-          <button type="button">Editar</button>
-          <button type="button">Deletar</button>
-        </>
+      render: (record: DataSourceContato) => (
+        <Actions>
+          <Button
+            type="button"
+            buttonSize="small"
+            buttonType="primary"
+            onClick={() => {
+              setModalEdit(true);
+              setContatoSelected(record);
+            }}
+          >
+            Editar
+          </Button>
+          <Button
+            type="button"
+            buttonSize="small"
+            buttonType="danger"
+            onClick={() => {
+              setModalDelete(true);
+              setContatoSelected(record);
+            }}
+          >
+            Deletar
+          </Button>
+        </Actions>
       ),
     },
   ];
@@ -86,15 +124,52 @@ function ContatosComp() {
           }
         />
         <ContatosContentButton>
-          <Button type="button" buttonSize="large" buttonType="primary">
+          <Button
+            type="button"
+            buttonSize="large"
+            buttonType="primary"
+            onClick={() => setModalAdd(true)}
+          >
             Novo contato
           </Button>
         </ContatosContentButton>
 
         <ContatosContentTable>
-          <Table dataSource={contatosData} columns={columns} />
+          <Table
+            dataSource={contatosData}
+            columns={columns}
+            bordered
+            loading={loading}
+          />
         </ContatosContentTable>
       </ContatosContainer>
+
+      {modalAdd && (
+        <ModalAddContato
+          visible={modalAdd}
+          closeModal={() => setModalAdd(false)}
+          fetch={() => fetchContatosData(search)}
+        />
+      )}
+
+      {modalEdit && (
+        <ModalEditContato
+          visible={modalEdit}
+          contato={contatoSelected}
+          closeModal={() => setModalEdit(false)}
+          fetch={() => fetchContatosData(search)}
+        />
+      )}
+
+      {modalDelete && (
+        <ModalConfirmation
+          visible={modalDelete}
+          closeModal={() => setModalDelete(false)}
+          title="Você tem certeza que desejar excluir o contato?"
+          onClick={() => deleteContato(contatoSelected?.key ?? '')}
+          loading={loading}
+        />
+      )}
     </>
   );
 }

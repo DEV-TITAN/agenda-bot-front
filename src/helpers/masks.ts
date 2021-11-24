@@ -17,7 +17,7 @@ export function dateMask(value: string) {
 
 export function phoneMask(value: string) {
   value = value.replace(/[^0-9]/g, '');
-  value = value.replace(/(\d{3})(\d)/, '($1)$2');
+  value = value.replace(/(\d{2})(\d)/, '($1)$2');
   value = value.replace(/(\d{4,5})(\d{4})/, '$1-$2');
   return value;
 }

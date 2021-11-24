@@ -99,11 +99,11 @@ export const ButtonContainer = styled.button<ButtonProps>`
       cursor: not-allowed;
       pointer-events: none;
       background-color: var(--white);
-      color: var(--neutral-gray-three);
-      border: 2px solid var(--neutral-gray-three);
+      color: var(--gray-three);
+      border: 1px solid var(--gray-four);
 
       p {
-        color: var(--neutral-gray-three) !important;
+        color: var(--gray-one) !important;
       }
     `}
 `;

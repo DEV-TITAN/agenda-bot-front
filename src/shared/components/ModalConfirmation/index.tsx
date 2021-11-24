@@ -23,7 +23,7 @@ export function ModalConfirmation({
       <Row>
         <Button
           buttonSize="medium"
-          buttonType="primary"
+          buttonType="danger"
           type="button"
           onClick={onClick}
           loading={loading}
@@ -33,7 +33,7 @@ export function ModalConfirmation({
 
         <Button
           buttonSize="medium"
-          buttonType="secondaryOutline"
+          buttonType="primaryOutline"
           type="button"
           onClick={closeModal}
         >

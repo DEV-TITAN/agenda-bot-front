@@ -62,5 +62,6 @@ export const Logo = styled.div`
     color: var(--white);
     font-size: 24px;
     font-weight: bold;
+    margin: 0;
   }
 `;
