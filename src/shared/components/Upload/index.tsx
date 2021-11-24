@@ -5,15 +5,14 @@ import { Button } from '../Button';
 import themeDefault from '../../../assets/photo-theme.jpg';
 import {
   ButtonChange,
-  DropzoneUploadImage,
+  DropzoneUploadAudio,
   FileContent,
   FileFooter,
-  Thumb,
 } from './style';
 
 interface UploadProps {
   handleOnChange(value: any): void;
-  currentImage: string | null;
+  currentAudio: string | null;
 }
 
 export interface IFile {
@@ -24,28 +23,26 @@ export interface IFile {
   lastModified: number;
 }
 
-export function Upload({ currentImage, handleOnChange }: UploadProps) {
+export function Upload({ currentAudio, handleOnChange }: UploadProps) {
   const [files, setFiles] = useState<IFile[]>([]);
-  const [image, setImage] = useState<string>();
+  const [audio, setAudio] = useState<string>();
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: ['.png', '.jpeg', '.jpg'],
-    onDrop: imageFile => {
+    accept: ['.mp3'],
+    onDrop: audioFile => {
       setFiles(
-        imageFile.map(file =>
+        audioFile.map(file =>
           Object.assign(file, { preview: URL.createObjectURL(file) }),
         ),
       );
-      handleOnChange(imageFile);
+      handleOnChange(audioFile);
     },
     maxFiles: 1,
   });
 
   useEffect(
     () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
       files.forEach(file => {
-        console.log(file.preview);
         URL.revokeObjectURL(file.preview);
       });
     },
@@ -53,20 +50,24 @@ export function Upload({ currentImage, handleOnChange }: UploadProps) {
   );
 
   const thumbs = files.map((file, index) => (
-    <Thumb key={index} src={file.preview} alt="" />
+    <audio key={index} controls>
+      <track kind="captions" />
+      <source src={file.preview} type="audio/mp3" />
+      <p>Formato não suportado</p>
+    </audio>
   ));
 
   useEffect(() => {
-    if (currentImage) {
-      setImage(currentImage);
+    if (currentAudio) {
+      setAudio(currentAudio);
     }
 
-    if (image) {
+    if (audio) {
       setFiles([
         {
-          name: image,
-          preview: image,
-          type: 'img',
+          name: audio,
+          preview: audio,
+          type: 'mp3',
           lastModified: dayjs().get('date'),
         },
       ]);
@@ -75,15 +76,15 @@ export function Upload({ currentImage, handleOnChange }: UploadProps) {
 
   return (
     <>
-      {!image || files.length > 0 ? (
+      {!audio || files.length > 0 ? (
         <>
           {!files.length ? (
-            <DropzoneUploadImage {...getRootProps()}>
+            <DropzoneUploadAudio {...getRootProps()}>
               <p>
                 <input {...getInputProps()} />
                 Selecione um arquivo do seu computador
               </p>
-            </DropzoneUploadImage>
+            </DropzoneUploadAudio>
           ) : (
             <FileContent>
               {thumbs}
@@ -107,7 +108,12 @@ export function Upload({ currentImage, handleOnChange }: UploadProps) {
         </>
       ) : (
         <FileContent>
-          <Thumb src={image.includes('null') ? themeDefault : image} alt="" />
+          <audio controls>
+            <track kind="captions" />
+            <source src={audio} type="audio/mp3" />
+            <p>Formato não suportado</p>
+          </audio>
+
           <FileFooter>
             <ButtonChange {...getRootProps()} type="button">
               <input {...getInputProps()} />

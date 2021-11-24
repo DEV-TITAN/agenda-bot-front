@@ -74,7 +74,7 @@ function ContatosComp() {
 
   const columns = [
     {
-      title: 'Name',
+      title: 'Nome',
       dataIndex: 'name',
       key: 'name',
     },
@@ -138,8 +138,8 @@ function ContatosComp() {
           <Table
             dataSource={contatosData}
             columns={columns}
-            bordered
             loading={loading}
+            bordered
           />
         </ContatosContentTable>
       </ContatosContainer>

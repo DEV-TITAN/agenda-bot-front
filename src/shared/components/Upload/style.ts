@@ -1,39 +1,44 @@
 import styled from 'styled-components';
 
-export const DropzoneUploadImage = styled.div`
+export const DropzoneUploadAudio = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  border: 2px dashed var(--yellow-500);
+  border: 2px dashed var(--blue-500);
   box-sizing: border-box;
   border-radius: 8px;
   width: 100%;
   min-width: 400px;
   height: 80px;
   cursor: pointer;
+  margin-bottom: 16px;
 
   p {
-    color: var(--yellow-500);
+    color: var(--blue-500);
+    font-weight: normal;
   }
 `;
 
 export const FileContent = styled.div`
   width: 100%;
   height: 100%;
+
+  audio {
+    width: 100%;
+  }
 `;
 
 export const FileFooter = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 300px !important;
   margin: 16px 0;
 `;
 
 export const ButtonChange = styled.button`
   border: none;
-  background: var(--purple-400);
+  background: var(--orange-400);
   height: 35px;
   font-size: 14px;
   padding: 8px 20px;
@@ -45,11 +50,4 @@ export const ButtonChange = styled.button`
   &:hover {
     opacity: 0.7;
   }
-`;
-
-export const Thumb = styled.img`
-  width: 300px;
-  height: 200px;
-  border: 1px solid var(--purple-500);
-  margin: 16px 0;
 `;

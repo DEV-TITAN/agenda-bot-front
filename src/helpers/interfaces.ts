@@ -219,3 +219,26 @@ export interface DataSourceContato {
   name: string;
   phoneNumber: string;
 }
+
+export interface AudiosList {
+  data: { audios: Audio[] };
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  rowCount: number;
+  searchName: string | null;
+}
+
+export interface Audio {
+  id: string;
+  title: string;
+  createdAt: string;
+  url: string;
+}
+
+export interface DataSourceAudio {
+  key: string;
+  title: string;
+  createdAt: string;
+  url: string;
+}

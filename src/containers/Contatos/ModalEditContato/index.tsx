@@ -9,16 +9,16 @@ import { DataSourceContato } from '../../../helpers/interfaces';
 
 export interface ModalEditContatoProps {
   visible: boolean;
-  contato?: DataSourceContato;
   closeModal(): void;
   fetch(): void;
+  contato?: DataSourceContato;
 }
 
 export function ModalEditContato({
   visible,
-  contato,
   closeModal,
   fetch,
+  contato,
 }: ModalEditContatoProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState<string>(contato?.name ?? '');
