@@ -24,8 +24,8 @@ export class AudiosStore {
 
   @action
   public async getAudiosList(
-    page: number,
-    pageSize: number,
+    page?: number,
+    pageSize?: number,
     searchName?: string,
   ) {
     try {

@@ -1,5 +1,5 @@
 import { action, observable } from 'mobx';
-import { UsersList, UserData, ContatosList } from '../helpers/interfaces';
+import { ContatosList } from '../helpers/interfaces';
 import api from '../api';
 import {
   showErrorNotification,
@@ -24,8 +24,8 @@ export class ContatosStore {
 
   @action
   public async getContatosList(
-    page: number,
-    pageSize: number,
+    page?: number,
+    pageSize?: number,
     searchName?: string,
   ) {
     try {

@@ -1,6 +1,6 @@
 import { action, observable } from 'mobx';
-import { Post, PostList, UserData, UsersList } from '../helpers/interfaces';
 import api from '../api';
+import { AgendamentosList } from '../helpers/interfaces';
 import {
   showErrorNotification,
   showSuccessNotification,
@@ -9,16 +9,7 @@ import { RootStore } from './RootStore';
 
 export class AgendamentosStore {
   @observable
-  public usersList: UsersList | null = null;
-
-  @observable
-  public postsList: PostList | null = null;
-
-  @observable
-  public post: Post | null = null;
-
-  @observable
-  public user: UserData | null = null;
+  public agendamentosList: AgendamentosList | null = null;
 
   protected rootStore: RootStore;
 
@@ -27,163 +18,77 @@ export class AgendamentosStore {
   }
 
   @action
-  private setUsersList(users: UsersList | null) {
-    this.usersList = users;
+  private setAgendamentosList(agendamentos: AgendamentosList | null) {
+    this.agendamentosList = agendamentos;
   }
 
   @action
-  private setPostList(posts: PostList | null) {
-    this.postsList = posts;
-  }
-
-  @action
-  private setPost(post: Post | null) {
-    this.post = post;
-  }
-
-  @action
-  private setUser(user: UserData | null) {
-    this.user = user;
-  }
-
-  @action
-  public async getUsersList(
-    role: string,
+  public async getAgendamentosList(
     page: number,
     pageSize: number,
     searchName?: string,
   ) {
     try {
-      const studentsList = (
-        await api.get(`users/admin/management`, {
+      const agendamentosList = (
+        await api.get(`/schedules`, {
           params: {
-            role,
             page,
             pageSize,
             searchName,
           },
         })
       ).data;
-      this.setUsersList(studentsList);
+      this.setAgendamentosList(agendamentosList);
     } catch (error) {
       showErrorNotification(error.response.data.message);
     }
   }
 
   @action
-  public async addUser(
-    role: string,
-    firstName: string,
-    surname: string,
-    birthDate: string,
-    email: string,
-    password: string,
-    message: string,
+  public async addContato(name: string, phoneNumber: string) {
+    try {
+      await api.post('contacts', {
+        name,
+        phoneNumber,
+      });
+      showSuccessNotification('Contato adicionado com sucesso!');
+    } catch (error) {
+      showErrorNotification('Erro ao adicionar contato!');
+    }
+  }
+
+  @action
+  public async editContato(
+    contatoId: string,
+    name: string,
+    phoneNumber: string,
   ) {
     try {
-      await api.post('users', {
-        role,
-        firstName,
-        surname,
-        birthDate,
-        email,
-        password,
+      await api.post(`contacts/${contatoId}`, {
+        name,
+        phoneNumber,
       });
-      showSuccessNotification(message);
+      showSuccessNotification('Contato editado com sucesso!');
     } catch (error) {
-      showErrorNotification(error.response.data.message);
-      showErrorNotification('Erro ao adicionar corretor/a');
+      showErrorNotification('Erro ao editar contato!');
     }
   }
 
   @action
-  public async getUserId(userId: string) {
+  public async getContato(contatoId: string) {
     try {
-      const user = (await api.get(`users/${userId}`)).data;
-      this.setUser(user.data.user);
+      await api.get(`contacts/${contatoId}`);
     } catch (error) {
-      showErrorNotification('Erro ao buscar usuário');
+      showErrorNotification('Erro ao buscar contato');
     }
   }
 
-  public async editUser(userId: string, file: FormData, message: string) {
+  public async deleteContato(contatoId: string) {
     try {
-      await api.put(`users/admin/${userId}`, file, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      showSuccessNotification(message);
+      await api.delete(`contacts/${contatoId}`);
+      showSuccessNotification('Contato deletado com sucesso!');
     } catch (error) {
-      showErrorNotification(error.response.data.error);
-      showErrorNotification('Erro ao editar usuário');
-    }
-  }
-
-  public async deleteUser(userId: string, message: string) {
-    try {
-      await api.delete(`users/admin/management/${userId}`);
-      showSuccessNotification(message);
-    } catch (error) {
-      showErrorNotification(error.response.data.error);
-      showErrorNotification('Erro ao deletar usuário');
-    }
-  }
-
-  @action
-  public async getPosts(page: number, pageSize: number, searchName?: string) {
-    try {
-      const postsList = (
-        await api.get(`posts/admin/management`, {
-          params: {
-            page,
-            pageSize,
-            searchName,
-          },
-        })
-      ).data;
-      this.setPostList(postsList);
-    } catch (error) {
-      showErrorNotification(error.response.data.message);
-    }
-  }
-
-  @action
-  public async getPostId(postId: string) {
-    try {
-      const post = (await api.get(`posts/${postId}`)).data;
-      this.setPost(post.data.post);
-    } catch (error) {
-      showErrorNotification('Erro ao buscar postagem');
-    }
-  }
-
-  public async newPost(file: FormData) {
-    try {
-      await api.post(`posts`, file, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      showSuccessNotification('Postagem criada com sucesso!');
-    } catch (error) {
-      showErrorNotification(error.response.data.error);
-    }
-  }
-
-  public async editPost(postId: string, file: FormData) {
-    try {
-      await api.put(`posts/${postId}`, file, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      showSuccessNotification('Postagem editada com sucesso!');
-    } catch (error) {
-      showErrorNotification(error.response.data.error);
-    }
-  }
-
-  public async deletePost(postId: string) {
-    try {
-      await api.delete(`posts/${postId}`);
-      showSuccessNotification('Postagem deletada com sucesso!');
-    } catch (error) {
-      showErrorNotification(error.response.data.error);
+      showErrorNotification('Erro ao excluir contato!');
     }
   }
 }
