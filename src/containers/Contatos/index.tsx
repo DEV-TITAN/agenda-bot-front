@@ -45,7 +45,7 @@ function ContatosComp() {
           contato => {
             return {
               key: contato.id,
-              name: contato.firstName,
+              name: contato.name,
               phoneNumber: contato.phoneNumber,
             };
           },
