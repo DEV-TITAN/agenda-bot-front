@@ -53,7 +53,7 @@ export function ModalAddAgendamento({
         contato => {
           return (
             <Option key={contato.id} value={contato.id}>
-              {contato.firstName}
+              {contato.name}
             </Option>
           );
         },
