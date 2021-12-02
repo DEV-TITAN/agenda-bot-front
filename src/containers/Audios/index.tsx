@@ -77,8 +77,7 @@ function AudiosComp() {
       key: '564841566465844644',
       title: 'Promoção do milhão',
       createdAt: getDateBrazilian('2021-10-26T02:19:37.362Z'),
-      url:
-        'https://s308.podbean.com/pb/a60069eb708c33b7d6926398ba612a69/619e83db/data1/fs167/13200633/uploads/audioteste.mp3?pbss=f5cd5125-762e-5287-8c1f-b6d2a981219e',
+      url: 'https://titan-ci.s3.sa-east-1.amazonaws.com/audioteste.mp3',
     },
   ];
 

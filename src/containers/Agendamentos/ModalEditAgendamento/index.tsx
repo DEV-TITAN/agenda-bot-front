@@ -15,27 +15,32 @@ import {
 } from './style';
 import { Modal } from '../../../shared/components/Modal';
 import { DatePicker, Select, Switch, TimePicker } from 'antd';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import { translateMonth, translateWeekday } from '../../../helpers/masks';
+import { DataSourceAgendamento } from '../../../helpers/interfaces';
 
-export interface ModalAddAgendamentoProps {
+export interface ModalEditAgendamentoProps {
   visible: boolean;
   closeModal(): void;
   fetch(): void;
+  agendamento?: DataSourceAgendamento;
 }
 
-export function ModalAddAgendamento({
+export function ModalEditAgendamento({
   visible,
   closeModal,
   fetch,
-}: ModalAddAgendamentoProps) {
+  agendamento,
+}: ModalEditAgendamentoProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const [title, setTitle] = useState<string>('');
+  const [title, setTitle] = useState<string>(agendamento?.title ?? '');
   const [contatosSelected, setContatosSelected] = useState<string[]>([]);
   const [audioSelected, setAudioSelected] = useState<string>();
   const [timeSelected, setTimeSelected] = useState<string>();
   const [periodicidadeSelected, setPeriodicidadeSelected] = useState<string>();
-  const [deleteWeekend, setDeleteWeekend] = useState<boolean>(true);
+  const [deleteWeekend, setDeleteWeekend] = useState<boolean>(
+    agendamento?.deleteWeekend ?? true,
+  );
   const [weekdaySelected, setWeekdaySelected] = useState<string>();
   const [daySelected, setDaySelected] = useState<string>();
   const [dayMonthSelected, setDayMonthSelected] = useState<string>();
@@ -102,19 +107,11 @@ export function ModalAddAgendamento({
 
   const validateButton = title;
 
-  async function submitAddAgendamento() {
+  async function submitEditAgendamento() {
     setIsLoading(true);
-
-    console.log(
-      title,
-      contatosSelected,
-      audioSelected,
-      periodicidadeSelected,
-      timeSelected,
-      weekdaySelected,
-      daySelected,
-      dayMonthSelected,
-    );
+    console.info(valueTime);
+    console.info(valueTime?.add);
+    console.log(moment(agendamento?.hour));
 
     fetch();
     setIsLoading(false);
@@ -135,6 +132,10 @@ export function ModalAddAgendamento({
           );
         },
       );
+
+      // const findContato = contatosStore.contatosList?.data.contacts.find(
+      //   (item: ScannedInvoiceViewModel) => item.id === agendamento.co,
+      // );
 
       setOptionsContatos(DataSourceContatos ?? []);
     });
@@ -166,7 +167,11 @@ export function ModalAddAgendamento({
   }, []);
 
   return (
-    <Modal visible={visible} title="Editar agendamento" closeModal={closeModal}>
+    <Modal
+      visible={visible}
+      title="Adicionar agendamento"
+      closeModal={closeModal}
+    >
       <FormContainer>
         <Section>
           <p>Título</p>
@@ -223,7 +228,7 @@ export function ModalAddAgendamento({
           <SectionWeekend>
             <p>Excluir final de semana</p>
             <Switch
-              defaultChecked
+              checked={deleteWeekend}
               onChange={value => setDeleteWeekend(value)}
             />
           </SectionWeekend>
@@ -319,7 +324,7 @@ export function ModalAddAgendamento({
           type="submit"
           loading={isLoading}
           disabled={!validateButton}
-          onClick={() => submitAddAgendamento()}
+          onClick={() => submitEditAgendamento()}
         >
           Confirmar
         </Button>

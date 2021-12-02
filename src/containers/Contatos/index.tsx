@@ -16,6 +16,7 @@ import { DataSourceContato } from '../../helpers/interfaces';
 import { ModalAddContato } from './ModalAddContato';
 import { ModalConfirmation } from '../../shared/components/ModalConfirmation';
 import { ModalEditContato } from './ModalEditContato';
+import { phoneMask } from '../../helpers/masks';
 
 function ContatosComp() {
   const [search, setSearch] = useState('');
@@ -46,7 +47,7 @@ function ContatosComp() {
             return {
               key: contato.id,
               name: contato.name,
-              phoneNumber: contato.phoneNumber,
+              phoneNumber: phoneMask(contato.phoneNumber),
             };
           },
         );

@@ -71,6 +71,8 @@ export interface Agendamento {
   contacts: string[];
   audio: string;
   frequency: Frequency;
+  hour: string;
+  pause?: boolean;
 
   // frequência diária
   deleteWeekend?: boolean;
@@ -79,15 +81,28 @@ export interface Agendamento {
   weekday?: Weekday;
 
   // frequência mensal
+  day?: string;
 
   // frequência anual
-
-  hour: string;
-  pause: boolean;
+  dayMonth?: string;
 }
 
 export interface DataSourceAgendamento {
   key: string;
   title: string;
-  pause: boolean;
+  frequency: Frequency;
+  hour: string;
+  pause?: boolean;
+
+  // frequência diária
+  deleteWeekend?: boolean;
+
+  // frequência semanal
+  weekday?: Weekday;
+
+  // frequência mensal
+  day?: string;
+
+  // frequência anual
+  dayMonth?: string;
 }

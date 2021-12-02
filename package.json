@@ -28,6 +28,7 @@
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
     "mobx-react-router": "^4.1.0",
+    "moment": "^2.29.1",
     "polished": "^4.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^2.0.2",

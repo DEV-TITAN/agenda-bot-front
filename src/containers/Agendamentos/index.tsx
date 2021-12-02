@@ -11,9 +11,11 @@ import {
   AgendamentosContentButton,
   AgendamentosContentTable,
 } from './style';
-import { Table } from 'antd';
+import { Table, Tag } from 'antd';
 import { ModalAddAgendamento } from './ModalAddAgendamento';
-import { string } from 'yup/lib/locale';
+import { translateMonth, translateWeekday } from '../../helpers/masks';
+import { ModalConfirmation } from '../../shared/components/ModalConfirmation';
+import { ModalEditAgendamento } from './ModalEditAgendamento';
 
 function AgendamentosComp() {
   const [search, setSearch] = useState('');
@@ -50,6 +52,8 @@ function AgendamentosComp() {
               key: agendamento.id,
               title: agendamento.title,
               pause: agendamento.pause,
+              frequency: agendamento.frequency,
+              hour: agendamento.hour,
             };
           },
         );
@@ -63,6 +67,13 @@ function AgendamentosComp() {
     fetchAgendamentosData(value);
   }
 
+  async function deleteAgendamento(id: string) {
+    setLoading(true);
+    await agendamentosStore.deleteContato(id);
+    fetchAgendamentosData();
+    setModalDelete(false);
+  }
+
   useEffect(() => {
     setLoading(true);
     fetchAgendamentosData(search);
@@ -71,27 +82,103 @@ function AgendamentosComp() {
   // remover depois de implementar o back
   const DataSource: DataSourceAgendamento[] = [
     {
-      key: '564841566465844644',
+      key: '1',
       title: 'Natal',
       pause: true,
+      hour: '15:30:10',
+      frequency: 'daily',
+      // frequência diária
+      deleteWeekend: true,
     },
     {
-      key: '564841566465844645',
+      key: '2',
       title: 'Ano novo',
       pause: false,
+      hour: '15:30:10',
+      frequency: 'weekly',
+      // frequência semanal
+      weekday: 'friday',
+    },
+    {
+      key: '3',
+      title: 'PicPay',
+      pause: true,
+      hour: '15:30:10',
+      frequency: 'monthly',
+      // frequência mensal
+      day: '20',
+    },
+    {
+      key: '4',
+      title: 'Não Inviabilize',
+      pause: false,
+      hour: '15:30:10',
+      frequency: 'yearly',
+      // frequência anual
+      dayMonth: '24/12',
+    },
+    {
+      key: '5',
+      title: 'São João',
+      pause: true,
+      hour: '15:30:10',
+      frequency: 'daily',
+      // frequência diária
+      deleteWeekend: false,
     },
   ];
 
   const columns = [
     {
       title: 'Título',
-      dataIndex: 'title',
       key: 'title',
+      dataIndex: 'title',
+    },
+    {
+      title: 'Periodicidade',
+      key: 'frequency',
+      render: (record: DataSourceAgendamento) => (
+        <>
+          {record.frequency === 'daily' &&
+            !record.deleteWeekend &&
+            record.hour &&
+            `Todo dia, às ${record.hour}.`}
+          {record.frequency === 'daily' &&
+            record.deleteWeekend &&
+            record.hour &&
+            `Todo dia, às ${record.hour}, exceto fins de semana.`}
+          {record.frequency === 'weekly' &&
+            record.hour &&
+            record.weekday &&
+            `${translateWeekday(record.weekday)}, às ${record.hour}.`}
+          {record.frequency === 'monthly' &&
+            record.hour &&
+            record.day &&
+            `Todo mês, dia ${record.day}, às ${record.hour}.`}
+          {record.frequency === 'yearly' &&
+            record.hour &&
+            record.dayMonth &&
+            `Todo ano, dia ${record.dayMonth.substring(
+              0,
+              2,
+            )} de ${translateMonth(record.dayMonth.substring(3, 5))}, às ${
+              record.hour
+            }.`}
+        </>
+      ),
     },
     {
       title: 'Status',
-      dataIndex: 'pause',
       key: 'pause',
+      render: (record: DataSourceAgendamento) => (
+        <>
+          {!record.pause ? (
+            <Tag color="green">ativo</Tag>
+          ) : (
+            <Tag color="red">pausado</Tag>
+          )}
+        </>
+      ),
     },
     {
       title: 'Ações',
@@ -160,6 +247,25 @@ function AgendamentosComp() {
           visible={modalAdd}
           closeModal={() => setModalAdd(false)}
           fetch={() => fetchAgendamentosData(search)}
+        />
+      )}
+
+      {modalEdit && (
+        <ModalEditAgendamento
+          visible={modalEdit}
+          agendamento={agendamentoSelected}
+          closeModal={() => setModalEdit(false)}
+          fetch={() => fetchAgendamentosData(search)}
+        />
+      )}
+
+      {modalDelete && (
+        <ModalConfirmation
+          visible={modalDelete}
+          closeModal={() => setModalDelete(false)}
+          title="Você tem certeza que desejar excluir o agendamento?"
+          onClick={() => deleteAgendamento(agendamentoSelected?.key ?? '')}
+          loading={loading}
         />
       )}
     </>
