@@ -40,7 +40,7 @@ export class AgendamentosStore {
       ).data;
       this.setAgendamentosList(agendamentosList);
     } catch (error) {
-      showErrorNotification(error.response.data.message);
+      showErrorNotification('error.response.data.message');
     }
   }
 

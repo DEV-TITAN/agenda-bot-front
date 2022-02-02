@@ -1,4 +1,4 @@
-export type Frequency = 'daily' | 'weekly' | 'monthly' | 'yearly';
+export type Frequency = 'custom' | 'daily' | 'weekly' | 'monthly' | 'yearly';
 export type Weekday =
   | 'monday'
   | 'tuesday'
@@ -92,6 +92,7 @@ export interface DataSourceAgendamento {
   title: string;
   frequency: Frequency;
   hour: string;
+  date?: string;
   pause?: boolean;
 
   // frequência diária
@@ -105,4 +106,7 @@ export interface DataSourceAgendamento {
 
   // frequência anual
   dayMonth?: string;
+
+  // frequência personalizada
+  customDate?: string;
 }

@@ -18,6 +18,10 @@ import { DatePicker, Select, Switch, TimePicker } from 'antd';
 import moment, { Moment } from 'moment';
 import { translateMonth, translateWeekday } from '../../../helpers/masks';
 import { DataSourceAgendamento } from '../../../helpers/interfaces';
+import {
+  optionsDiaDaSemana,
+  optionsPeriodicidade,
+} from '../../../helpers/options';
 
 export interface ModalEditAgendamentoProps {
   visible: boolean;
@@ -37,73 +41,39 @@ export function ModalEditAgendamento({
   const [contatosSelected, setContatosSelected] = useState<string[]>([]);
   const [audioSelected, setAudioSelected] = useState<string>();
   const [timeSelected, setTimeSelected] = useState<string>();
-  const [periodicidadeSelected, setPeriodicidadeSelected] = useState<string>();
+  const [periodicidadeSelected, setPeriodicidadeSelected] = useState<string>(
+    agendamento?.frequency ?? '',
+  );
   const [deleteWeekend, setDeleteWeekend] = useState<boolean>(
     agendamento?.deleteWeekend ?? true,
   );
-  const [weekdaySelected, setWeekdaySelected] = useState<string>();
-  const [daySelected, setDaySelected] = useState<string>();
-  const [dayMonthSelected, setDayMonthSelected] = useState<string>();
+  const [weekdaySelected, setWeekdaySelected] = useState<string>(
+    agendamento?.weekday ?? '',
+  );
+  const [daySelected, setDaySelected] = useState<string>(
+    agendamento?.day ?? '',
+  );
+  const [dayMonthSelected, setDayMonthSelected] = useState<string>(
+    agendamento?.date ?? '',
+  );
+  const [customDateSelected, setCustomDateSelected] = useState<string>();
+  const [dateSelected, setDateSelected] = useState<string>();
 
   const [loading, setLoading] = useState(false);
 
   const { agendamentosStore, contatosStore, audiosStore } = useStores();
 
-  const [valueTime, setValueTime] = useState<Moment | null>();
-  const [valueDate, setValueDate] = useState<Moment | null>();
+  const [valueTime, setValueTime] = useState<Moment | null>(
+    moment(`${agendamento?.date} ${agendamento?.hour}`, 'DD/MM/YYYY HH:mm:ss'),
+  );
+  const [valueDate, setValueDate] = useState<Moment | null>(
+    moment(`${agendamento?.date}`, 'DD/MM/YYYY'),
+  );
   const [valueDateMonth, setValueDateMonth] = useState<Moment | null>();
+  const [valueCustomDate, setValueCustomDate] = useState<Moment | null>();
   const { Option } = Select;
   const [optionsContatos, setOptionsContatos] = useState<JSX.Element[]>([]);
   const [optionsAudios, setOptionsAudios] = useState<JSX.Element[]>([]);
-  const optionsPeriodicidade = [
-    {
-      key: 'Diária',
-      value: 'daily',
-    },
-    {
-      key: 'Semanal',
-      value: 'weekly',
-    },
-    {
-      key: 'Mensal',
-      value: 'monthly',
-    },
-    {
-      key: 'Anual',
-      value: 'yearly',
-    },
-  ];
-
-  const optionsDiaDaSemana = [
-    {
-      key: 'Segunda',
-      value: 'monday',
-    },
-    {
-      key: 'Terça',
-      value: 'tuesday',
-    },
-    {
-      key: 'Quarta',
-      value: 'wednesday',
-    },
-    {
-      key: 'Quinta',
-      value: 'thursday',
-    },
-    {
-      key: 'Sexta',
-      value: 'friday',
-    },
-    {
-      key: 'Sábado',
-      value: 'saturday',
-    },
-    {
-      key: 'Domingo',
-      value: 'sunday',
-    },
-  ];
 
   const validateButton = title;
 
@@ -111,7 +81,11 @@ export function ModalEditAgendamento({
     setIsLoading(true);
     console.info(valueTime);
     console.info(valueTime?.add);
-    console.log(moment(agendamento?.hour));
+    console.log(
+      moment(
+        `${agendamento?.date} ${agendamento?.hour}, "DD/MM/YYYY HH:mm:ss"`,
+      ),
+    );
 
     fetch();
     setIsLoading(false);
@@ -211,13 +185,14 @@ export function ModalEditAgendamento({
         <SectionFrequency>
           <p>Periodicidade</p>
           <Select
+            value={periodicidadeSelected}
             showSearch
             style={{ width: '100%' }}
             placeholder="Selecione a periodicidade"
             onChange={(value: string) => setPeriodicidadeSelected(value)}
           >
             {optionsPeriodicidade.map(option => (
-              <Option key={option.key} value={option.value}>
+              <Option key={option.key} value={option.value} defaultValue>
                 {option.key}
               </Option>
             ))}
@@ -276,6 +251,21 @@ export function ModalEditAgendamento({
                 setDayMonthSelected(dateString.substring(0, 5));
               }}
               format="DD/MM"
+            />
+          </SectionMonthly>
+        )}
+
+        {periodicidadeSelected === 'custom' && (
+          <SectionMonthly>
+            <DatePicker
+              value={valueCustomDate}
+              placeholder="Selecione o ano, dia e mês"
+              onChange={(value, dateString) => {
+                setValueCustomDate(value);
+                setCustomDateSelected(dateString);
+                setDateSelected(dateString);
+              }}
+              format="DD/MM/YYYY"
             />
           </SectionMonthly>
         )}

@@ -40,7 +40,7 @@ export class AudiosStore {
       ).data;
       this.setAudiosList(audiosList);
     } catch (error) {
-      showErrorNotification(error.response.data.message);
+      showErrorNotification('error.response.data.message');
     }
   }
 

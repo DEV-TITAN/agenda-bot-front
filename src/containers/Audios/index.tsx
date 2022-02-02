@@ -157,7 +157,7 @@ function AudiosComp() {
 
         <AudiosContentTable>
           <Table
-            dataSource={DataSource}
+            dataSource={audiosData}
             columns={columns}
             loading={loading}
             bordered

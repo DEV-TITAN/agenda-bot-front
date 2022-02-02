@@ -28,10 +28,8 @@ function AgendamentosComp() {
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
 
-  const [
-    agendamentoSelected,
-    setAgendamentoSelected,
-  ] = useState<DataSourceAgendamento>();
+  const [agendamentoSelected, setAgendamentoSelected] =
+    useState<DataSourceAgendamento>();
 
   const debounceQuery = debounceSearch(500);
 
@@ -46,17 +44,18 @@ function AgendamentosComp() {
       .finally(() => {
         setLoading(false);
 
-        const DataSource = agendamentosStore.agendamentosList?.data.schedules.map(
-          agendamento => {
-            return {
-              key: agendamento.id,
-              title: agendamento.title,
-              pause: agendamento.pause,
-              frequency: agendamento.frequency,
-              hour: agendamento.hour,
-            };
-          },
-        );
+        const DataSource =
+          agendamentosStore.agendamentosList?.data.schedules.map(
+            agendamento => {
+              return {
+                key: agendamento.id,
+                title: agendamento.title,
+                pause: agendamento.pause,
+                frequency: agendamento.frequency,
+                hour: agendamento.hour,
+              };
+            },
+          );
 
         setAgendamentosData(DataSource ?? []);
       });
@@ -89,6 +88,7 @@ function AgendamentosComp() {
       frequency: 'daily',
       // frequência diária
       deleteWeekend: true,
+      date: '20/05/2022',
     },
     {
       key: '2',
@@ -98,6 +98,7 @@ function AgendamentosComp() {
       frequency: 'weekly',
       // frequência semanal
       weekday: 'friday',
+      date: '20/05/2022',
     },
     {
       key: '3',
@@ -107,6 +108,7 @@ function AgendamentosComp() {
       frequency: 'monthly',
       // frequência mensal
       day: '20',
+      date: '20/05/2022',
     },
     {
       key: '4',
@@ -116,6 +118,7 @@ function AgendamentosComp() {
       frequency: 'yearly',
       // frequência anual
       dayMonth: '24/12',
+      date: '24/12/2022',
     },
     {
       key: '5',
@@ -125,6 +128,17 @@ function AgendamentosComp() {
       frequency: 'daily',
       // frequência diária
       deleteWeekend: false,
+      date: '20/05/2022',
+    },
+    {
+      key: '6',
+      title: 'Jusbrasil',
+      pause: true,
+      hour: '15:30:10',
+      frequency: 'custom',
+      // frequência personalizada
+      customDate: '31/01/2022',
+      date: '31/01/2022',
     },
   ];
 
@@ -164,6 +178,11 @@ function AgendamentosComp() {
             )} de ${translateMonth(record.dayMonth.substring(3, 5))}, às ${
               record.hour
             }.`}
+
+          {record.frequency === 'custom' &&
+            record.hour &&
+            record.date &&
+            `Uma única vez, dia ${record.date}, às ${record.hour}.`}
         </>
       ),
     },

@@ -66,7 +66,8 @@
       "react/no-array-index-key": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "import/order": "off",
-      "@typescript-eslint/no-unused-vars": "off"
+      "@typescript-eslint/no-unused-vars": "off",
+      "react/jsx-no-bind": "off"
     },
     "settings": {
       "import/resolver": {

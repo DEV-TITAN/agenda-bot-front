@@ -40,7 +40,7 @@ export class ContatosStore {
       ).data;
       this.setContatosList(contatosList);
     } catch (error) {
-      showErrorNotification(error.response.data.message);
+      showErrorNotification('error.response.data.message');
     }
   }
 

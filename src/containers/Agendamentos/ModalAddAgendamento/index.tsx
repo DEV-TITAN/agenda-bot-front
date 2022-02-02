@@ -17,6 +17,10 @@ import { Modal } from '../../../shared/components/Modal';
 import { DatePicker, Select, Switch, TimePicker } from 'antd';
 import { Moment } from 'moment';
 import { translateMonth, translateWeekday } from '../../../helpers/masks';
+import {
+  optionsDiaDaSemana,
+  optionsPeriodicidade,
+} from '../../../helpers/options';
 
 export interface ModalAddAgendamentoProps {
   visible: boolean;
@@ -39,6 +43,8 @@ export function ModalAddAgendamento({
   const [weekdaySelected, setWeekdaySelected] = useState<string>();
   const [daySelected, setDaySelected] = useState<string>();
   const [dayMonthSelected, setDayMonthSelected] = useState<string>();
+  const [customDateSelected, setCustomDateSelected] = useState<string>();
+  const [dateSelected, setDateSelected] = useState<string>();
 
   const [loading, setLoading] = useState(false);
 
@@ -46,59 +52,11 @@ export function ModalAddAgendamento({
 
   const [valueTime, setValueTime] = useState<Moment | null>();
   const [valueDate, setValueDate] = useState<Moment | null>();
+  const [valueCustomDate, setValueCustomDate] = useState<Moment | null>();
   const [valueDateMonth, setValueDateMonth] = useState<Moment | null>();
   const { Option } = Select;
   const [optionsContatos, setOptionsContatos] = useState<JSX.Element[]>([]);
   const [optionsAudios, setOptionsAudios] = useState<JSX.Element[]>([]);
-  const optionsPeriodicidade = [
-    {
-      key: 'Diária',
-      value: 'daily',
-    },
-    {
-      key: 'Semanal',
-      value: 'weekly',
-    },
-    {
-      key: 'Mensal',
-      value: 'monthly',
-    },
-    {
-      key: 'Anual',
-      value: 'yearly',
-    },
-  ];
-
-  const optionsDiaDaSemana = [
-    {
-      key: 'Segunda',
-      value: 'monday',
-    },
-    {
-      key: 'Terça',
-      value: 'tuesday',
-    },
-    {
-      key: 'Quarta',
-      value: 'wednesday',
-    },
-    {
-      key: 'Quinta',
-      value: 'thursday',
-    },
-    {
-      key: 'Sexta',
-      value: 'friday',
-    },
-    {
-      key: 'Sábado',
-      value: 'saturday',
-    },
-    {
-      key: 'Domingo',
-      value: 'sunday',
-    },
-  ];
 
   const validateButton = title;
 
@@ -255,6 +213,7 @@ export function ModalAddAgendamento({
               onChange={(value, dateString) => {
                 setValueDate(value);
                 setDaySelected(dateString.substring(0, 2));
+                setDateSelected(dateString);
               }}
               format="DD"
             />
@@ -269,8 +228,24 @@ export function ModalAddAgendamento({
               onChange={(value, dateString) => {
                 setValueDateMonth(value);
                 setDayMonthSelected(dateString.substring(0, 5));
+                setDateSelected(dateString);
               }}
               format="DD/MM"
+            />
+          </SectionMonthly>
+        )}
+
+        {periodicidadeSelected === 'custom' && (
+          <SectionMonthly>
+            <DatePicker
+              value={valueCustomDate}
+              placeholder="Selecione o ano, dia e mês"
+              onChange={(value, dateString) => {
+                setValueCustomDate(value);
+                setCustomDateSelected(dateString);
+                setDateSelected(dateString);
+              }}
+              format="DD/MM/YYYY"
             />
           </SectionMonthly>
         )}
@@ -281,6 +256,8 @@ export function ModalAddAgendamento({
             onChange={(value, dateString) => {
               setValueTime(value);
               setTimeSelected(dateString);
+              console.log(dateString);
+              console.log(value);
             }}
           />
         </SectionDate>
@@ -290,18 +267,22 @@ export function ModalAddAgendamento({
             timeSelected &&
             !deleteWeekend &&
             `Todo dia, às ${timeSelected}.`}
+
           {periodicidadeSelected === 'daily' &&
             timeSelected &&
             deleteWeekend &&
             `Todo dia, às ${timeSelected}, exceto fins de semana.`}
+
           {periodicidadeSelected === 'weekly' &&
             timeSelected &&
             weekdaySelected &&
             `${translateWeekday(weekdaySelected)}, às ${timeSelected}.`}
+
           {periodicidadeSelected === 'monthly' &&
             timeSelected &&
             daySelected &&
             `Todo mês, dia ${daySelected}, às ${timeSelected}.`}
+
           {periodicidadeSelected === 'yearly' &&
             timeSelected &&
             dayMonthSelected &&
@@ -311,6 +292,11 @@ export function ModalAddAgendamento({
             )} de ${translateMonth(
               dayMonthSelected.substring(3, 5),
             )}, às ${timeSelected}.`}
+
+          {periodicidadeSelected === 'custom' &&
+            timeSelected &&
+            customDateSelected &&
+            `Uma única vez, dia ${customDateSelected}, às ${timeSelected}.`}
         </SectionSelected>
 
         <Button
