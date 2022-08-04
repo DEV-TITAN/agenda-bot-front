@@ -37,8 +37,8 @@ function SidenavComp() {
   return (
     <SidenavContainer>
       <Logo>
-        <img src={logo} alt="agenda Bot" />
-        <h1>Agenda BOT</h1>
+        <img src={logo} alt="awaken Bot" />
+        <h1>Awaken BOT</h1>
       </Logo>
       <SidenavContent>
         <Items>

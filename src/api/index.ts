@@ -4,7 +4,7 @@ import { LOCAL_STORAGE_ACCESS_TOKEN } from '../helpers/localStorage';
 const token = localStorage.getItem(LOCAL_STORAGE_ACCESS_TOKEN);
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: `https://agendabot-api.titanci.com.br/v1/`,
 });
 
 api.defaults.headers.authorization = `Bearer ${token}`;

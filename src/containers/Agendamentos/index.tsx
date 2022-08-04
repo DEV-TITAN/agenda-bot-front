@@ -16,6 +16,7 @@ import { ModalAddAgendamento } from './ModalAddAgendamento';
 import { translateMonth, translateWeekday } from '../../helpers/masks';
 import { ModalConfirmation } from '../../shared/components/ModalConfirmation';
 import { ModalEditAgendamento } from './ModalEditAgendamento';
+import { ModalAutenticarWhatsApp } from '../ModalAutenticarWhatsApp';
 
 function AgendamentosComp() {
   const [search, setSearch] = useState('');
@@ -27,6 +28,7 @@ function AgendamentosComp() {
   const [modalAdd, setModalAdd] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
+  const [modalAutenticarWhatsApp, setModalAutenticarWhatsApp] = useState(true);
 
   const [agendamentoSelected, setAgendamentoSelected] =
     useState<DataSourceAgendamento>();
@@ -285,6 +287,13 @@ function AgendamentosComp() {
           title="Você tem certeza que desejar excluir o agendamento?"
           onClick={() => deleteAgendamento(agendamentoSelected?.key ?? '')}
           loading={loading}
+        />
+      )}
+
+      {modalAutenticarWhatsApp && (
+        <ModalAutenticarWhatsApp
+          visible={modalAutenticarWhatsApp}
+          closeModal={() => setModalAutenticarWhatsApp(false)}
         />
       )}
     </>

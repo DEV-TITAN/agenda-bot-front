@@ -69,7 +69,7 @@ function LoginComp() {
         <Content>
           <Logo>
             <img src={logo} alt="tela vazia" />
-            <h1>Agenda Bot</h1>
+            <h1>Awaken Bot</h1>
           </Logo>
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input name="email" icon={faEnvelope} placeholder="E-mail" />

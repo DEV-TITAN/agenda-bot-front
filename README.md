@@ -1,6 +1,6 @@
 ## :fire: O projeto
 
-Agenda Bot.
+Awaken Bot.
 
 ### :rocket: Tecnologias Usadas
 
