@@ -28,7 +28,7 @@ function AgendamentosComp() {
   const [modalAdd, setModalAdd] = useState(false);
   const [modalEdit, setModalEdit] = useState(false);
   const [modalDelete, setModalDelete] = useState(false);
-  const [modalAutenticarWhatsApp, setModalAutenticarWhatsApp] = useState(true);
+  const [modalAutenticarWhatsApp, setModalAutenticarWhatsApp] = useState(false);
 
   const [agendamentoSelected, setAgendamentoSelected] =
     useState<DataSourceAgendamento>();
@@ -250,6 +250,15 @@ function AgendamentosComp() {
             onClick={() => setModalAdd(true)}
           >
             Novo agendamento
+          </Button>
+
+          <Button
+            type="button"
+            buttonSize="large"
+            buttonType="primary"
+            onClick={() => setModalAutenticarWhatsApp(true)}
+          >
+            Autenticar WhatsApp
           </Button>
         </AgendamentosContentButton>
 

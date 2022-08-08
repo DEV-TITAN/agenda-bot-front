@@ -5,15 +5,16 @@ import QRCode from 'qrcode';
 
 export interface ModalAutenticarWhatsAppProps {
   closeModal(): void;
-  qrcodeImage: string;
+  visible: boolean;
 }
 
 export function ModalAutenticarWhatsApp({
+  visible,
   closeModal,
 }: ModalAutenticarWhatsAppProps) {
   const [qrcodeImage, setQrcodeImage] = useState<string>('');
   const [listening, setListening] = useState<boolean>(false);
-  const [visible, setVisible] = useState<boolean>(false);
+  const [modalVisible, setmodalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     if (!listening) {
@@ -25,7 +26,7 @@ export function ModalAutenticarWhatsApp({
           console.log(url);
         });
         setQrcodeImage(parsedData);
-        setVisible(true);
+        setmodalVisible(true);
       };
 
       setListening(true);
@@ -34,11 +35,14 @@ export function ModalAutenticarWhatsApp({
 
   return (
     <Modal
-      visible={visible}
+      visible={visible || modalVisible}
       title="Autenticar WhatsApp"
       closeModal={closeModal}
     >
-      <img alt="qr code" src={qrcodeImage} />
+      <img
+        alt="qr code"
+        src="https://www.wix.com/tools/qr-code-generator/_functions/svg/250/000/fff/SGVsbG8="
+      />
     </Modal>
   );
 }

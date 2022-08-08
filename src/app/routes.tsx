@@ -16,26 +16,6 @@ function RoutesComp() {
   const { authStore } = useStores();
 
   if (authStore.isUserLoggedIn) {
-
-  const [qrcodeImage, setQrcodeImage] = useState([]);
-  const [listening, setListening] = useState(false);
-      useEffect(() => {
-      if (!listening) {
-        const events = new EventSource('http://localhost:3001/events');
-
-        events.onmessage = event => {
-          const parsedData = JSON.parse(event.data);
-
-          QRCode.toDataURL(parsedData, (err, url) => {
-            console.log(url);
-          });
-          setQrcodeImage(qrcodeImage.concat(parsedData));
-        };
-
-        setListening(true);
-        }
-
-  }, [listening, qrcodeImage]);
     return (
       <Switch>
         <Container>
